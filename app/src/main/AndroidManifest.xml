@@ -10,16 +10,18 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".Activity.MainActivity"
-            android:theme="@style/SplashScreenTheme">
+            >
 
         </activity>
 
-        <activity android:name=".Activity.StartActivity">
+        <activity android:name=".Activity.StartActivity"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
     </application>
 
