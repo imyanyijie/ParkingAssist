@@ -14,16 +14,16 @@
         <!-- Main content -->
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/floating_action_button"
+            android:id="@+id/addParkingButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:fabCustomSize="100dp"
-            android:layout_gravity="bottom|end"
-            android:layout_marginEnd="60dp"
-            android:layout_marginBottom="16dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:srcCompat="@drawable/plus_solid" />
+            android:layout_gravity="bottom|center"
+            android:layout_margin="20dp"
+            android:src="@drawable/ic_add_white_24dp"
+            app:fabCustomSize="112dp"
+            app:fabSize="auto"
+            android:alpha="0.5"
+            app:maxImageSize="84dp" />
 
         <fragment
             android:id="@+id/current_location"

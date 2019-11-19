@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/carInfoLayout"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_margin="10dp"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/carPhotoView"
+            android:layout_width="250dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/logo_small" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/carPlateHint"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/carPlateHint"
+                android:layout_margin="3dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/carPlateNumber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="3dp"
+                android:text="carPlateNumber" />
+
+            <TextView
+                android:id="@+id/locationHint"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/locationHint"
+                android:layout_margin="3dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/parkingLocation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="3dp"
+                android:text="parkingLocation" />
+
+            <Button
+                android:id="@+id/foundButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/register_found"
+                android:textColor="#ffffff"
+                app:backgroundTint="#D81610" />
+
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_below="@+id/carInfoLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!-- Main content -->
+
+        <fragment
+            android:id="@+id/current_location"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal" />
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+</RelativeLayout>

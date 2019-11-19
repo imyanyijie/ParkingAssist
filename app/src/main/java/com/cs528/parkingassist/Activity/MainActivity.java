@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         mapFragment.getMapAsync(this);
 
         FloatingActionButton floatingActionButton =
-                (FloatingActionButton) findViewById(R.id.floating_action_button);
+                (FloatingActionButton) findViewById(R.id.addParkingButton);
 
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
