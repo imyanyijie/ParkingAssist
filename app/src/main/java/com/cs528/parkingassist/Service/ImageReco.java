@@ -1,21 +1,18 @@
 package com.cs528.parkingassist.Service;
 
 import android.content.Context;
-import android.util.JsonReader;
+import android.util.Log;
 
-import java.io.IOException;
+import com.cs528.parkingassist.Util.Constants;
+
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import javax.json.Json;
-import javax.json.JsonObject;
-import javax.json.JsonReader;
+
 
 public class ImageReco {
     private static final String api = "https://dev.sighthoundapi.com/v1/recognition?objectType=vehicle,licenseplate";
-    private static String imageUrl = "https://www.example.com/path/to/image.jpg";
-
     private static ImageReco instance = null;
     private Context context;
     public static ImageReco getInstance(Context context) {
@@ -28,29 +25,29 @@ public class ImageReco {
         this.context = context;
     }
 
-    public void connectServer(){
-        JsonObject jsonImage = Json.createObjectBuilder().add("image", imageUrl).build();
-        URL apiURL = new URL(api);
-        HttpURLConnection connection = (HttpURLConnection) apiURL.openConnection();
-        connection.setRequestProperty("Content-Type", "application/json");
-        connection.setRequestProperty("X-Access-Token", accessToken);
-        connection.setRequestMethod("POST");
-        connection.setDoInput(true);
-        connection.setDoOutput(true);
-        byte[] body = jsonImage.toString().getBytes();
-        connection.setFixedLengthStreamingMode(body.length);
-        OutputStream os = connection.getOutputStream();
-        os.write(body);
-        os.flush();
-        int httpCode = connection.getResponseCode();
-        if ( httpCode == 200 ){
-            JsonReader jReader = Json.createReader(connection.getInputStream());
-            JsonObject jsonBody = jReader.readObject();
-            System.out.println(jsonBody);
-        } else {
-            JsonReader jReader = Json.createReader(connection.getErrorStream());
-            JsonObject jsonError = jReader.readObject();
-            System.out.println(jsonError);
+    public void detectCar(byte[] image_Byte){
+
+        try {
+            URL apiURL = new URL(api);
+            HttpURLConnection connection = (HttpURLConnection) apiURL.openConnection();
+            connection.setRequestProperty("Content-Type", "application/json");
+            connection.setRequestProperty("X-Access-Token", Constants.API_Token);
+            connection.setRequestMethod("POST");
+            connection.setDoInput(true);
+            connection.setDoOutput(true);
+            connection.setFixedLengthStreamingMode(image_Byte.length);
+            OutputStream os = connection.getOutputStream();
+            os.write(image_Byte);
+            os.flush();
+            int httpCode = connection.getResponseCode();
+            if (httpCode == 200) {
+                Log.e("The return json is",""+connection.getInputStream());
+            } else {
+                Log.e("The Error has Occurred",""+connection.getErrorStream());
+            }
+        }catch (Exception ex){
+            Log.e("The Error has Occurred","Exception: "+ex);
+
         }
     }
 

@@ -5,12 +5,22 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+
 import android.Manifest;
+import android.annotation.SuppressLint;
+
+
 import android.content.Intent;
 import android.content.pm.PackageManager;
+
+
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.location.Location;
+import android.net.Uri;
 import android.os.Bundle;
+
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
@@ -26,9 +36,13 @@ import com.google.android.gms.maps.model.LatLng;
 import com.cs528.parkingassist.Util.Utils;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
+    private Boolean canTakePhoto;
+
+    private static final int REQUEST_PHOTO= 2;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
 
     @Override
@@ -36,6 +50,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Log.i("start", "MainActivity");
+        final Intent captureImage = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        final PackageManager packageManager = this.getPackageManager();
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.current_location);
@@ -48,6 +64,23 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             @Override
             public void onClick(View view) {
                 Log.i("button", "add new parking button clicked!");
+                canTakePhoto = captureImage.resolveActivity(packageManager) != null;
+                if (canTakePhoto) {
+//                    Uri uri = FileProvider.getUriForFile(MainActivity.this,
+//                            "com.cs528.parkingassist.provider", mPhotoFile);
+//                    captureImage.putExtra(MediaStore.EXTRA_OUTPUT, uri);
+
+
+//                    List<ResolveInfo> cameraActivities =
+//                            packageManager.queryIntentActivities(captureImage,
+//                                    PackageManager.MATCH_DEFAULT_ONLY);
+//
+//                    for (ResolveInfo activity : cameraActivities) {
+//                        MainActivity.this.grantUriPermission(activity.activityInfo.packageName,
+//                                uri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+//                    }
+                    startActivityForResult(captureImage, REQUEST_PHOTO);
+                }
             }
         });
 
@@ -95,7 +128,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             new GoogleMap.OnMyLocationButtonClickListener() {
                 @Override
                 public boolean onMyLocationButtonClick() {
-                    mMap.setMinZoomPreference(15);
+                    mMap.setMinZoomPreference(30);
                     return false;
                 }
             };
@@ -118,5 +151,16 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     mMap.addCircle(circleOptions);
                 }
             };
+
+
+    @SuppressLint("MissingSuperCall")
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_PHOTO && resultCode == RESULT_OK) {
+            Bundle extras = data.getExtras();
+            Bitmap imageBitmap = (Bitmap) extras.get("data");
+
+        }
+    }
 
 }
