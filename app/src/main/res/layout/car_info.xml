@@ -6,6 +6,7 @@
     android:layout_margin="20dp"
     android:orientation="vertical">
 
+
     <ImageView
         android:id="@+id/carPhoto"
         android:layout_width="match_parent"
@@ -17,7 +18,9 @@
         android:id="@+id/carBasicInfo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/rect_shadow"
+        android:padding="10dp"
         android:stretchColumns="1">
 
         <TableRow
@@ -139,8 +142,10 @@
         android:id="@+id/descriptionInfo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:stretchColumns="1">
+        android:layout_marginTop="10dp"
+        android:padding="10dp"
+        android:stretchColumns="1"
+        android:background="@drawable/rect_shadow">
 
         <TableRow
             android:layout_width="match_parent"
@@ -174,9 +179,11 @@
         android:id="@+id/confirmButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:text="Confirm"
-        android:textSize="20sp" />
+        android:textSize="20sp"
+        android:textColor="#ffffff"
+        app:backgroundTint="#D81610"/>
 
 
 </LinearLayout>
