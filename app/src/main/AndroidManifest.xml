@@ -39,6 +39,9 @@
             </intent-filter>
 
         </activity>
+
+        <receiver android:name=".BroadcastRecv.GeoFenceRecv"/>
+        <receiver android:name=".BroadcastRecv.ActivityRecoRecv"/>
     </application>
 
 </manifest>

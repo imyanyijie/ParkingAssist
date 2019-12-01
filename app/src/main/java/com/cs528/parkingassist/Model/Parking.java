@@ -93,4 +93,21 @@ public class Parking {
         this.lon = lon;
         this.time = time;
     }
+    public Parking(String make, String model, String color, String licence, long lat, long lon, String time) {
+        this.maker = make;
+        this.model = model;
+        this.color = color;
+        this.licence = licence;
+        this.lat = lat;
+        this.lon = lon;
+        this.time = time;
+    }
+
+    public Parking(String make, String model, String color, String licence) {
+        this.maker = make;
+        this.model = model;
+        this.color = color;
+        this.licence = licence;
+    }
+
 }
