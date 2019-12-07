@@ -18,10 +18,10 @@ public class ParkCursorWrapper extends CursorWrapper {
         String color = getString(getColumnIndex(ParkTable.Cols.COLOR));
         String licence = getString(getColumnIndex(ParkTable.Cols.LICENCE));
         String description = getString(getColumnIndex(ParkTable.Cols.DESCRIPTION));
-        long lat = getLong(getColumnIndex(ParkTable.Cols.LAT));
-        long lon = getLong(getColumnIndex(ParkTable.Cols.LOGN));
+        double lat = getDouble(getColumnIndex(ParkTable.Cols.LAT));
+        double lon = getDouble(getColumnIndex(ParkTable.Cols.LOGN));
         String time = getString(getColumnIndex(ParkTable.Cols.PTIME));
-        Parking parking = new Parking(pID,maker,model,color,licence,lat,lon,time);
+        Parking parking = new Parking(pID,maker,model,color,licence,lat,lon,description,time);
         parking.setDescription(description);
         return parking;
     }

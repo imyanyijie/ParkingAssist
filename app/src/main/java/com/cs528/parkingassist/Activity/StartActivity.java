@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.os.Handler;
 
+import com.cs528.parkingassist.BroadcastRecv.ActivityRecoRecv;
 import com.cs528.parkingassist.BroadcastRecv.GeoFenceRecv;
 import com.cs528.parkingassist.Database.ParkPersistance;
 import com.cs528.parkingassist.Model.Parking;
@@ -40,9 +41,45 @@ public class StartActivity extends AppCompatActivity {
                             Manifest.permission.ACCESS_FINE_LOCATION},
                     LOCATION_PERMISSION_REQUEST_CODE);
         }
-        //register activity reco
+        else{
+            activityrec = ActivityRec.getInstance(StartActivity.this);
+            activityrec.start(getActivityRecoPendingIntent());
+            //initialize database if haven't
+            parkPersistance = ParkPersistance.get_instance(StartActivity.this);
+            List<Parking> parkingList = parkPersistance.getParkings();
+            if(parkingList == null|| parkingList.isEmpty()){
+                handler=new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        Intent intent=new Intent(StartActivity.this,MainActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
+                },1000);
+            }
+            else{
+                Log.e(Constants.APP_NAME,"Database is not empty, going display the list");
+                handler=new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        Intent intent=new Intent(StartActivity.this,FindCarActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
+                },1000);
+            }
+        }
+
+    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults){
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+
         activityrec = ActivityRec.getInstance(StartActivity.this);
-        activityrec.start(getGeofencePendingIntent());
+        activityrec.start(getActivityRecoPendingIntent());
         //initialize database if haven't
         parkPersistance = ParkPersistance.get_instance(StartActivity.this);
         List<Parking> parkingList = parkPersistance.getParkings();
@@ -59,12 +96,19 @@ public class StartActivity extends AppCompatActivity {
         }
         else{
             Log.e(Constants.APP_NAME,"Database is not empty, going display the list");
+            handler=new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    Intent intent=new Intent(StartActivity.this,FindCarActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+            },1000);
         }
-
     }
-
-    private PendingIntent getGeofencePendingIntent() {
-        Intent intent = new Intent(this, GeoFenceRecv.class);
+    private PendingIntent getActivityRecoPendingIntent() {
+        Intent intent = new Intent(this, ActivityRecoRecv.class);
         PendingIntent geofencePendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.
                 FLAG_UPDATE_CURRENT);
         return geofencePendingIntent;

@@ -25,8 +25,6 @@ public class GeoFencing {
     private GeofencingClient geofencingClient;
     private List<Geofence> geofenceList = new ArrayList<Geofence>();
 
-    private LatLng GORDON = new LatLng(42.274228, -71.806353);
-    private LatLng FULLER = new LatLng(42.275122, -71.806497);
     public static GeoFencing getInstance(Context context) {
         if (instance == null)
             instance = new GeoFencing(context);
@@ -38,12 +36,12 @@ public class GeoFencing {
         geofencingClient = LocationServices.getGeofencingClient(context);
     }
 
-    private void addGeofence(String geoID, LatLng latLng ) {
+    public void addGeofence(String geoID, LatLng latLng ) {
         geofenceList.add(createGeofence(geoID, latLng, Constants.GEOFENCE_RADIUS));
     }
 
     public void startGeo(PendingIntent pendingIntent){
-        Log.d("Geo", "startGeofence request");
+        Log.e("Geo", "startGeofence request");
         geofencingClient.addGeofences(getGeofencingRequest(), pendingIntent)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
@@ -58,6 +56,8 @@ public class GeoFencing {
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
+
+                        Log.e(Constants.APP_NAME,"GeoFence not  successful"+e);
                         // Failed to add geofences
                         Log.w("Error", "Geo fence Not enabled");
                         Toast.makeText(context,
@@ -70,7 +70,7 @@ public class GeoFencing {
 
     // Create a Geofence
     private Geofence createGeofence(String geoID, LatLng latLng, float radius ) {
-        Log.d("Geo", "createGeofence");
+        Log.e("Geo", "createGeofence");
         return new Geofence.Builder()
                 .setRequestId(geoID)
                 .setCircularRegion( latLng.latitude, latLng.longitude, radius)
@@ -82,7 +82,7 @@ public class GeoFencing {
     }
 
     private GeofencingRequest getGeofencingRequest() {
-        Log.d("Geo", "createGeofence request");
+        Log.e("Geo", "createGeofence request");
         GeofencingRequest.Builder builder = new GeofencingRequest.Builder();
         builder.setInitialTrigger(GeofencingRequest.INITIAL_TRIGGER_DWELL);
         builder.addGeofences(geofenceList);

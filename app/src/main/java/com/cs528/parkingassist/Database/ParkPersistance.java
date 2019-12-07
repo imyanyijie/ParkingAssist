@@ -70,7 +70,6 @@ public class ParkPersistance {
 
     private static ContentValues getContentValues(Parking parking) {
         ContentValues values = new ContentValues();
-        values.put(ParkTable.Cols.PID, parking.getId());
         values.put(ParkTable.Cols.MAKER, parking.getMaker());
         values.put(ParkTable.Cols.MODEL, parking.getModel());
         values.put(ParkTable.Cols.COLOR, parking.getColor());

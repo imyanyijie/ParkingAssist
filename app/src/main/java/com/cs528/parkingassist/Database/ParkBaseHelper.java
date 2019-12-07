@@ -25,6 +25,7 @@ public class ParkBaseHelper extends SQLiteOpenHelper {
                 ParkTable.Cols.LICENCE + ", " +
                 ParkTable.Cols.LAT + ", " +
                 ParkTable.Cols.LOGN + ", " +
+                ParkTable.Cols.DESCRIPTION + ", " +
                 ParkTable.Cols.PTIME +
                 ")"
         );

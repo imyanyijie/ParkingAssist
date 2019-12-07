@@ -48,9 +48,13 @@ public class ImageReco {
                 Log.e("The return message is",""+jsonBody);
                 Parking carInfo = detect_CarPlate(jsonBody);
                 this.carInfo = carInfo;
-
                 connection.disconnect();
-                return true;
+                if(carInfo == null){
+                    return false;
+                }
+                else{
+                    return true;
+                }
             } else {
                 Log.e("The Error has Occurred","The http code "+httpCode);
                 Log.e("The Error has Occurred",""+connection.getErrorStream());

@@ -18,7 +18,6 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.location.Location;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
@@ -27,6 +26,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.cs528.parkingassist.Model.Parking;
 import com.cs528.parkingassist.R;
 import com.cs528.parkingassist.Service.ImageReco;
 import com.cs528.parkingassist.Util.Constants;
@@ -47,9 +47,12 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     private GoogleMap mMap;
     private Boolean canTakePhoto;
+    private Bitmap imageBitmap;
+    private LatLng currenLocation;
 
     private static final int REQUEST_PHOTO= 2;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,6 +117,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         Location lastLocation = Utils.getBestLastKnownLocation(this);
         LatLng last = new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude());
+        currenLocation = last;
         mMap.moveCamera(CameraUpdateFactory.newLatLng(last));
         mMap.setMinZoomPreference(15);
     }
@@ -137,7 +141,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     CircleOptions circleOptions = new CircleOptions();
                     circleOptions.center(new LatLng(location.getLatitude(),
                             location.getLongitude()));
-
+                    currenLocation = new LatLng(location.getLatitude(),location.getLatitude());
                     circleOptions.radius(200);
                     circleOptions.fillColor(Color.RED);
                     circleOptions.strokeWidth(6);
@@ -152,7 +156,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_PHOTO && resultCode == RESULT_OK) {
             Bundle extras = data.getExtras();
-            Bitmap imageBitmap = (Bitmap) extras.get("data");
+            imageBitmap = (Bitmap) extras.get("data");
             AsyncTaskRunner asyncTaskRunner = new AsyncTaskRunner(imageBitmap);
             asyncTaskRunner.execute();
 
@@ -195,12 +199,26 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             if(result.equalsIgnoreCase("True")){
                 Log.e(Constants.APP_NAME,"recognition successful");
                 //go to the correct activity that will display the data.
+                Intent intent = new Intent(MainActivity.this, CarInfoActivity.class);
+                intent.putExtra("image ",imageBitmap);
+                intent.putExtra("latitude",currenLocation.latitude);
+                intent.putExtra("longitude",currenLocation.longitude);
+                intent.putExtra("recognized",true);
+                startActivity(intent);
+
             }
             else {
                 Log.e(Constants.APP_NAME,"recognition not  successful");
                 //go to the correct activity that will display the data.
                 Toast.makeText(MainActivity.this, "Image could not be recognized! Please try again!",
                         Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(MainActivity.this, CarInfoActivity.class);
+                intent.putExtra("image",imageBitmap);
+                intent.putExtra("latitude",currenLocation.latitude);
+                intent.putExtra("longitude",currenLocation.longitude);
+                intent.putExtra("recognized",false);
+
+                startActivity(intent);
             }
         }
 

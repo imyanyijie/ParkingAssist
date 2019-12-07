@@ -7,8 +7,8 @@ public class Parking {
     private String color;
     private String licence;
     private String description;
-    private long lat;
-    private long lon;
+    private double lat;
+    private double lon;
     private String time;
 
     public String getDescription() {
@@ -71,11 +71,11 @@ public class Parking {
         return color;
     }
 
-    public long getLat() {
+    public double getLat() {
         return lat;
     }
 
-    public long getLon() {
+    public double getLon() {
         return lon;
     }
 
@@ -83,7 +83,7 @@ public class Parking {
         return time;
     }
 
-    public Parking(int id, String make, String model, String color, String licence, long lat, long lon, String time) {
+    public Parking(int id, String make, String model, String color, String licence, double lat, double lon,String description, String time) {
         this.id = id;
         this.maker = make;
         this.model = model;
@@ -91,15 +91,17 @@ public class Parking {
         this.licence = licence;
         this.lat = lat;
         this.lon = lon;
+        this.description = description;
         this.time = time;
     }
-    public Parking(String make, String model, String color, String licence, long lat, long lon, String time) {
+    public Parking(String make, String model, String color, String licence, double lat, double lon,String description, String time) {
         this.maker = make;
         this.model = model;
         this.color = color;
         this.licence = licence;
         this.lat = lat;
         this.lon = lon;
+        this.description = description;
         this.time = time;
     }
 

@@ -10,9 +10,9 @@ public class ParkDbSchema {
             public static final String MODEL = "model";
             public static final String COLOR = "color";
             public static final String LICENCE = "licence";
-            public static final String DESCRIPTION = "description";
             public static final String LAT = "lat";
             public static final String LOGN = "lon";
+            public static final String DESCRIPTION = "description";
             public static final String PTIME = "ptime";
         }
     }

@@ -25,9 +25,13 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
-        <activity android:name=".Activity.MainActivity"
-            >
+        <activity android:name=".Activity.MainActivity">
+        </activity>
 
+        <activity android:name=".Activity.CarInfoActivity">
+        </activity>
+
+        <activity android:name=".Activity.FindCarActivity">
         </activity>
 
         <activity android:name=".Activity.StartActivity"
