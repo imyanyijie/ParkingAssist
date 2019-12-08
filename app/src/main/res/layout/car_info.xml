@@ -52,8 +52,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ems="10"
+                android:hint="color of the car"
                 android:inputType="none|text"
-                android:text="color of the car"
                 android:textSize="20sp" />
         </TableRow>
 
@@ -73,7 +73,7 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="none|text"
-                android:text="make of the car"
+                android:hint="make of the car"
                 android:textSize="20sp" />
         </TableRow>
 
@@ -93,7 +93,7 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="none|text"
-                android:text="model of the car"
+                android:hint="model of the car"
                 android:textSize="20sp" />
         </TableRow>
 
@@ -113,7 +113,7 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="none|text"
-                android:text="license of the car"
+                android:hint="license of the car"
                 android:textSize="20sp" />
         </TableRow>
 

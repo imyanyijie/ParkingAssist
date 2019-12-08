@@ -111,9 +111,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
     private void showDefaultLocation() {
-        Toast.makeText(this, "Location permission not granted, " +
-                        "showing default location",
-                Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, "Location permission not granted, " +
+//                        "showing default location",
+//                Toast.LENGTH_SHORT).show();
 
         Location lastLocation = Utils.getBestLastKnownLocation(this);
         LatLng last = new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude());
