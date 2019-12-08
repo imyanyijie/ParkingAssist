@@ -171,7 +171,7 @@ public class FindCarActivity extends AppCompatActivity implements OnMapReadyCall
         builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Toast.makeText(getApplicationContext(), "You can make modifications.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Continue finding your car.", Toast.LENGTH_SHORT).show();
 
             }
         });
