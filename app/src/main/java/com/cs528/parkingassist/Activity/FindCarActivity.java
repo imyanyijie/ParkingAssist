@@ -44,6 +44,7 @@ public class FindCarActivity extends AppCompatActivity implements OnMapReadyCall
     private GoogleMap mMap;
     private LatLng currenLocation;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 2;
+    private ParkPersistance parkDB;
     List<Parking> parkingList;
     Parking parkingInfo;
 
@@ -52,6 +53,7 @@ public class FindCarActivity extends AppCompatActivity implements OnMapReadyCall
         super.onCreate(savedInstanceState);
         setContentView(R.layout.find_car);
         Log.i("car", "find car");
+        parkDB = ParkPersistance.get_instance(FindCarActivity.this);
         view_licence = findViewById(R.id.carPlateNumber);
         view_location = findViewById(R.id.parkingLocation);
         foundButton = findViewById(R.id.foundButton);
@@ -73,12 +75,11 @@ public class FindCarActivity extends AppCompatActivity implements OnMapReadyCall
         mapFragment.getMapAsync((OnMapReadyCallback) this);
 
 
-//        view_l.setText(p.getLicence());
-//        String lat = String.valueOf(p.getLat());
-//        String lon = String.valueOf(p.getLon());
-        //TODO: get last location lat long
-//        String s = "( " + lat + " " + lon + ")";
-//        view_loc.setText(s);
+        view_licence.setText(parkingInfo.getLicence());
+        String lat = String.valueOf(parkingInfo.getLat());
+        String lon = String.valueOf(parkingInfo.getLon());
+        String s = "( " + lat + " " + lon + ")";
+        view_location.setText(s);
 
     }
 
@@ -164,6 +165,7 @@ public class FindCarActivity extends AppCompatActivity implements OnMapReadyCall
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Toast.makeText(getApplicationContext(), "You've choosen to delete all records and start over", Toast.LENGTH_SHORT).show();
+                parkDB.removeParking();
                 startActivity(new Intent(FindCarActivity.this, MainActivity.class));
             }
         });
@@ -172,6 +174,7 @@ public class FindCarActivity extends AppCompatActivity implements OnMapReadyCall
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Toast.makeText(getApplicationContext(), "Continue finding your car.", Toast.LENGTH_SHORT).show();
+
 
             }
         });

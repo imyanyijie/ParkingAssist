@@ -49,8 +49,9 @@ public class ParkPersistance {
         return parkings;
     }
 
-    public void removeParking(Parking parking){
 
+    public void removeParking(){
+        mDatabase.execSQL("delete from "+ ParkTable.NAME);
     }
 
     private ParkCursorWrapper queryCrimes(String whereClause, String[] whereArgs) {
