@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.cs528.parkingassist.BroadcastRecv.GeoFenceRecv;
 import com.cs528.parkingassist.Database.ParkPersistance;
@@ -21,9 +22,14 @@ import com.cs528.parkingassist.Model.Parking;
 import com.cs528.parkingassist.R;
 import com.cs528.parkingassist.Service.GeoFencing;
 import com.cs528.parkingassist.Service.ImageReco;
+import com.cs528.parkingassist.Util.Constants;
+import com.cs528.parkingassist.Util.PictureUtils;
 import com.google.android.gms.location.Geofence;
 import com.google.android.gms.maps.model.LatLng;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -38,7 +44,7 @@ public class CarInfoActivity extends AppCompatActivity{
     private TextView view_description;
     private double lat =0.0;
     private double lon =0.0;
-
+    private Bitmap carImage;
     private GeoFencing geoFencing;
 
     private Parking parking;
@@ -58,23 +64,11 @@ public class CarInfoActivity extends AppCompatActivity{
         Button button = (Button)findViewById(R.id.confirmButton);
 
         Intent intent = getIntent();
-        Bitmap carImage = (Bitmap) intent.getParcelableExtra("image");
+        carImage = (Bitmap) intent.getParcelableExtra("image");
         boolean recognizeFlag = intent.getBooleanExtra("recognized",false);
         lon = intent.getDoubleExtra("longitude",0.0);
         lat = intent.getDoubleExtra("latitude",0.0);
         imageView.setImageBitmap(carImage);
-
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED) {
-            // Check Permissions Now
-            ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                    1);
-        }
-
-        else {
-
-        }
 
 
         if(recognizeFlag){
@@ -100,6 +94,15 @@ public class CarInfoActivity extends AppCompatActivity{
                 LatLng latLng = new LatLng(lat,lon);
                 geoFencing.addGeofence(licence, latLng);
                 ParkPersistance.get_instance(CarInfoActivity.this).addParking(p);
+                File photoFile = ParkPersistance.get_instance(CarInfoActivity.this).addPhotoFile();
+                try {
+                    FileOutputStream fOut = new FileOutputStream(photoFile);
+                    carImage.compress(Bitmap.CompressFormat.JPEG, 85, fOut);
+                    fOut.flush();
+                    fOut.close();
+                }catch (IOException ex){
+                    Log.e(Constants.APP_NAME,"FATEL ERROR WHEN STORING PIC"+ex);
+                }
 
                 geoFencing.startGeo(getGeofencePendingIntent());
                 startActivity(new Intent(CarInfoActivity.this, FindCarActivity.class));

@@ -24,7 +24,7 @@ public class GeoFencing {
     private Context context;
     private GeofencingClient geofencingClient;
     private List<Geofence> geofenceList = new ArrayList<Geofence>();
-
+    private PendingIntent geoPendingIntent;
     public static GeoFencing getInstance(Context context) {
         if (instance == null)
             instance = new GeoFencing(context);
@@ -40,7 +40,8 @@ public class GeoFencing {
         geofenceList.add(createGeofence(geoID, latLng, Constants.GEOFENCE_RADIUS));
     }
 
-    public void startGeo(PendingIntent pendingIntent){
+    public void startGeo(PendingIntent pendingIntent) {
+        this.geoPendingIntent = pendingIntent;
         Log.e("Geo", "startGeofence request");
         geofencingClient.addGeofences(getGeofencingRequest(), pendingIntent)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -57,7 +58,7 @@ public class GeoFencing {
                     @Override
                     public void onFailure(@NonNull Exception e) {
 
-                        Log.e(Constants.APP_NAME,"GeoFence not  successful"+e);
+                        Log.e(Constants.APP_NAME, "GeoFence not  successful" + e);
                         // Failed to add geofences
                         Log.w("Error", "Geo fence Not enabled");
                         Toast.makeText(context,
@@ -66,6 +67,34 @@ public class GeoFencing {
                                 .show();
                     }
                 });
+    }
+
+    public void removeAllGeofence(){
+        geofencingClient.removeGeofences(geoPendingIntent)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        // Geofences added
+                        Toast.makeText(context,
+                                "Geo Fence removed",
+                                Toast.LENGTH_SHORT)
+                                .show();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                        Log.e(Constants.APP_NAME, "GeoFence remove not  successful" + e);
+                        // Failed to add geofences
+                        Log.w("Error", "Geo fence Not enabled");
+                        Toast.makeText(context,
+                                "Geo Fence remove not successful. ",
+                                Toast.LENGTH_SHORT)
+                                .show();
+                    }
+                });
+
     }
 
     // Create a Geofence

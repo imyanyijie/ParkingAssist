@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
@@ -20,9 +21,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.cs528.parkingassist.BroadcastRecv.GeoFenceRecv;
 import com.cs528.parkingassist.Database.ParkPersistance;
 import com.cs528.parkingassist.Model.Parking;
 import com.cs528.parkingassist.R;
+import com.cs528.parkingassist.Service.GeoFencing;
+import com.cs528.parkingassist.Util.Constants;
+import com.cs528.parkingassist.Util.PictureUtils;
 import com.cs528.parkingassist.Util.Utils;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -32,6 +37,7 @@ import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.io.File;
 import java.util.List;
 
 
@@ -57,6 +63,7 @@ public class FindCarActivity extends AppCompatActivity implements OnMapReadyCall
         view_licence = findViewById(R.id.carPlateNumber);
         view_location = findViewById(R.id.parkingLocation);
         foundButton = findViewById(R.id.foundButton);
+        carImage = findViewById(R.id.carPhotoView);
         foundButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -64,6 +71,14 @@ public class FindCarActivity extends AppCompatActivity implements OnMapReadyCall
             }
         });
 
+        File mPhotoFile = ParkPersistance.get_instance(FindCarActivity.this).getPhotoFile();
+        if (mPhotoFile == null || !mPhotoFile.exists()) {
+            Log.e(Constants.APP_NAME,"FAIL TO GET PHOTO");
+        } else {
+            Bitmap bitmap = PictureUtils.getScaledBitmap(
+                    mPhotoFile.getPath(), FindCarActivity.this);
+            carImage.setImageBitmap(bitmap);
+        }
 
         parkingList = ParkPersistance.get_instance(FindCarActivity.this).getParkings();
         parkingInfo = parkingList.get(parkingList.size()-1);
@@ -166,6 +181,7 @@ public class FindCarActivity extends AppCompatActivity implements OnMapReadyCall
             public void onClick(DialogInterface dialog, int which) {
                 Toast.makeText(getApplicationContext(), "You've choosen to delete all records and start over", Toast.LENGTH_SHORT).show();
                 parkDB.removeParking();
+                GeoFencing.getInstance(FindCarActivity.this).removeAllGeofence();
                 startActivity(new Intent(FindCarActivity.this, MainActivity.class));
             }
         });
