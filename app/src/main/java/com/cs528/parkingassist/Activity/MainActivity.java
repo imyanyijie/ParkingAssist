@@ -111,9 +111,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
     private void showDefaultLocation() {
-//        Toast.makeText(this, "Location permission not granted, " +
-//                        "showing default location",
-//                Toast.LENGTH_SHORT).show();
 
         Location lastLocation = Utils.getBestLastKnownLocation(this);
         LatLng last = new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude());
@@ -157,10 +154,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         if (requestCode == REQUEST_PHOTO && resultCode == RESULT_OK) {
             Bundle extras = data.getExtras();
             imageBitmap = (Bitmap) extras.get("data");
+
             AsyncTaskRunner asyncTaskRunner = new AsyncTaskRunner(imageBitmap);
             asyncTaskRunner.execute();
-
-
         }
     }
 
@@ -200,7 +196,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 Log.e(Constants.APP_NAME,"recognition successful");
                 //go to the correct activity that will display the data.
                 Intent intent = new Intent(MainActivity.this, CarInfoActivity.class);
-                intent.putExtra("image ",imageBitmap);
+                intent.putExtra("image",imageBitmap);
                 intent.putExtra("latitude",currenLocation.latitude);
                 intent.putExtra("longitude",currenLocation.longitude);
                 intent.putExtra("recognized",true);

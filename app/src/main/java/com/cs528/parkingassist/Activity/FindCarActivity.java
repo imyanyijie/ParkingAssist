@@ -8,6 +8,8 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
@@ -39,7 +41,9 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
+import java.util.Locale;
 
 
 public class FindCarActivity extends AppCompatActivity implements OnMapReadyCallback{
@@ -84,18 +88,25 @@ public class FindCarActivity extends AppCompatActivity implements OnMapReadyCall
         parkingList = ParkPersistance.get_instance(FindCarActivity.this).getParkings();
         parkingInfo = parkingList.get(parkingList.size()-1);
         view_licence.setText(parkingInfo.getLicence());
-        view_location.setText(parkingInfo.getLat()+","+parkingInfo.getLon());
+
+        Geocoder geocoder;
+        List<Address> addresses;
+        geocoder = new Geocoder(this, Locale.getDefault());
+
+        String s =null;
+        try {
+            addresses = geocoder.getFromLocation(parkingInfo.getLat(), parkingInfo.getLon(), 1);
+            String address = addresses.get(0).getAddressLine(0);
+            s =  address;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        view_location.setText(s);
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.current_location);
         mapFragment.getMapAsync((OnMapReadyCallback) this);
-
-
         view_licence.setText(parkingInfo.getLicence());
-        String lat = String.valueOf(parkingInfo.getLat());
-        String lon = String.valueOf(parkingInfo.getLon());
-        String s = "( " + lat + " " + lon + ")";
-        view_location.setText(s);
 
     }
 

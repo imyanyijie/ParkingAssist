@@ -5,6 +5,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
+import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -33,6 +34,7 @@ public class StartActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
         Log.i("start", "StartActivity");
+
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -44,6 +46,8 @@ public class StartActivity extends AppCompatActivity {
         else{
             activityrec = ActivityRec.getInstance(StartActivity.this);
             activityrec.start(getActivityRecoPendingIntent());
+
+
             //initialize database if haven't
             parkPersistance = ParkPersistance.get_instance(StartActivity.this);
             List<Parking> parkingList = parkPersistance.getParkings();

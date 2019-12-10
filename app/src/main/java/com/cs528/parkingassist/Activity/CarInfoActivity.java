@@ -1,10 +1,13 @@
 package com.cs528.parkingassist.Activity;
 
 import android.Manifest;
+import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -32,6 +35,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
+import java.util.Locale;
 
 
 public class CarInfoActivity extends AppCompatActivity{
@@ -64,7 +69,7 @@ public class CarInfoActivity extends AppCompatActivity{
         Button button = (Button)findViewById(R.id.confirmButton);
 
         Intent intent = getIntent();
-        carImage = (Bitmap) intent.getParcelableExtra("image");
+        carImage = intent.getParcelableExtra("image");
         boolean recognizeFlag = intent.getBooleanExtra("recognized",false);
         lon = intent.getDoubleExtra("longitude",0.0);
         lat = intent.getDoubleExtra("latitude",0.0);
@@ -78,7 +83,18 @@ public class CarInfoActivity extends AppCompatActivity{
             view_make.setText(parking.getMaker());
             view_color.setText(parking.getColor());
         }
-        String s =  lat + "," + lon;
+        Geocoder geocoder;
+        List<Address> addresses;
+        geocoder = new Geocoder(this, Locale.getDefault());
+        String s = null;
+        try {
+            addresses = geocoder.getFromLocation(lat, lon, 1);
+            String address = addresses.get(0).getAddressLine(0);
+            s =  address;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         view_location.setText(s);
 
         button.setOnClickListener(new View.OnClickListener() {
