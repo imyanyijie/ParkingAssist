@@ -24,7 +24,8 @@ public class GeoFencing {
     private Context context;
     private GeofencingClient geofencingClient;
     private List<Geofence> geofenceList = new ArrayList<Geofence>();
-    private PendingIntent geoPendingIntent;
+
+
     public static GeoFencing getInstance(Context context) {
         if (instance == null)
             instance = new GeoFencing(context);
@@ -36,12 +37,11 @@ public class GeoFencing {
         geofencingClient = LocationServices.getGeofencingClient(context);
     }
 
-    public void addGeofence(String geoID, LatLng latLng ) {
+    public void addGeofence(String geoID, LatLng latLng) {
         geofenceList.add(createGeofence(geoID, latLng, Constants.GEOFENCE_RADIUS));
     }
 
     public void startGeo(PendingIntent pendingIntent) {
-        this.geoPendingIntent = pendingIntent;
         Log.e("Geo", "startGeofence request");
         geofencingClient.addGeofences(getGeofencingRequest(), pendingIntent)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -69,8 +69,8 @@ public class GeoFencing {
                 });
     }
 
-    public void removeAllGeofence(){
-        geofencingClient.removeGeofences(geoPendingIntent)
+    public void removeAllGeofence(PendingIntent pendingIntent) {
+        geofencingClient.removeGeofences(pendingIntent)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
@@ -98,15 +98,15 @@ public class GeoFencing {
     }
 
     // Create a Geofence
-    private Geofence createGeofence(String geoID, LatLng latLng, float radius ) {
+    private Geofence createGeofence(String geoID, LatLng latLng, float radius) {
         Log.e("Geo", "createGeofence");
         return new Geofence.Builder()
                 .setRequestId(geoID)
-                .setCircularRegion( latLng.latitude, latLng.longitude, radius)
+                .setCircularRegion(latLng.latitude, latLng.longitude, radius)
                 .setExpirationDuration(-1)
-                .setTransitionTypes( Geofence.GEOFENCE_TRANSITION_ENTER
-                        | Geofence.GEOFENCE_TRANSITION_DWELL )
-                .setLoiteringDelay (15000)
+                .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER
+                        | Geofence.GEOFENCE_TRANSITION_DWELL)
+                .setLoiteringDelay(15000)
                 .build();
     }
 

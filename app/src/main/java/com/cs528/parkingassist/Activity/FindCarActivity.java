@@ -2,6 +2,7 @@ package com.cs528.parkingassist.Activity;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.app.PendingIntent;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -181,7 +182,7 @@ public class FindCarActivity extends AppCompatActivity implements OnMapReadyCall
             public void onClick(DialogInterface dialog, int which) {
                 Toast.makeText(getApplicationContext(), "You've choosen to delete all records and start over", Toast.LENGTH_SHORT).show();
                 parkDB.removeParking();
-                GeoFencing.getInstance(FindCarActivity.this).removeAllGeofence();
+                GeoFencing.getInstance(FindCarActivity.this).removeAllGeofence(getGeofencePendingIntent());
                 startActivity(new Intent(FindCarActivity.this, MainActivity.class));
             }
         });
@@ -196,6 +197,13 @@ public class FindCarActivity extends AppCompatActivity implements OnMapReadyCall
         });
 
         builder.show();
+    }
+
+    private PendingIntent getGeofencePendingIntent() {
+        Intent intent = new Intent(this, GeoFenceRecv.class);
+        PendingIntent geofencePendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.
+                FLAG_UPDATE_CURRENT);
+        return geofencePendingIntent;
     }
 
 }
