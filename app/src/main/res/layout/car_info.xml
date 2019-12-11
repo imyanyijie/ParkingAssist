@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -9,15 +9,15 @@
 
     <ImageView
         android:id="@+id/carPhoto"
-        android:layout_width="100dp"
+        android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:layout_gravity="center"
-        app:srcCompat="@drawable/car12" />
+        android:layout_marginTop="20dp" />
 
     <TableLayout
         android:id="@+id/carBasicInfo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/carPhoto"
         android:layout_marginTop="10dp"
         android:background="@drawable/rect_shadow"
         android:padding="10dp"
@@ -72,8 +72,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:inputType="none|text"
                 android:hint="make of the car"
+                android:inputType="none|text"
                 android:textSize="20sp" />
         </TableRow>
 
@@ -92,8 +92,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:inputType="none|text"
                 android:hint="model of the car"
+                android:inputType="none|text"
                 android:textSize="20sp" />
         </TableRow>
 
@@ -112,8 +112,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:inputType="none|text"
                 android:hint="license of the car"
+                android:inputType="none|text"
                 android:textSize="20sp" />
         </TableRow>
 
@@ -132,8 +132,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:inputType="none|text"
                 android:hint="location of the car"
+                android:inputType="none|text"
                 android:textSize="20sp" />
         </TableRow>
     </TableLayout>
@@ -142,10 +142,11 @@
         android:id="@+id/descriptionInfo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/carBasicInfo"
         android:layout_marginTop="10dp"
+        android:background="@drawable/rect_shadow"
         android:padding="10dp"
-        android:stretchColumns="1"
-        android:background="@drawable/rect_shadow">
+        android:stretchColumns="1">
 
         <TableRow
             android:layout_width="match_parent"
@@ -169,8 +170,8 @@
                 android:layout_height="wrap_content"
                 android:layout_span="2"
                 android:ems="10"
-                android:inputType="none|text"
                 android:hint="description or memo"
+                android:inputType="none|text"
                 android:textSize="20sp" />
         </TableRow>
     </TableLayout>
@@ -179,11 +180,12 @@
         android:id="@+id/confirmButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/descriptionInfo"
         android:layout_marginTop="10dp"
+        android:backgroundTint="#DC143C"
         android:text="Confirm"
-        android:textSize="20sp"
         android:textColor="#ffffff"
-        app:backgroundTint="#D81610"/>
+        android:textSize="20sp" />
 
 
-</LinearLayout>
+</RelativeLayout>
