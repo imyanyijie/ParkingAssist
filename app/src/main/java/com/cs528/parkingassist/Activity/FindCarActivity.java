@@ -144,9 +144,6 @@ public class FindCarActivity extends AppCompatActivity implements OnMapReadyCall
 
 
     private void showDefaultLocation() {
-        Toast.makeText(this, "Location permission not granted, " +
-                        "showing default location",
-                Toast.LENGTH_SHORT).show();
 
         Location lastLocation = Utils.getBestLastKnownLocation(this);
         LatLng last = new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude());
@@ -195,6 +192,7 @@ public class FindCarActivity extends AppCompatActivity implements OnMapReadyCall
                 parkDB.removeParking();
                 GeoFencing.getInstance(FindCarActivity.this).removeAllGeofence(getGeofencePendingIntent());
                 startActivity(new Intent(FindCarActivity.this, MainActivity.class));
+                finish();
             }
         });
 

@@ -7,6 +7,7 @@ import androidx.core.content.ContextCompat;
 import android.Manifest;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -29,6 +30,7 @@ public class StartActivity extends AppCompatActivity {
     private ActivityRec activityrec;
     private ParkPersistance parkPersistance;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -116,5 +118,9 @@ public class StartActivity extends AppCompatActivity {
         PendingIntent geofencePendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.
                 FLAG_UPDATE_CURRENT);
         return geofencePendingIntent;
+    }
+
+    public ParkPersistance getPersistance(){
+        return ParkPersistance.get_instance(StartActivity.this);
     }
 }

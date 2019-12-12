@@ -60,7 +60,7 @@ public class ActivityRec {
             @Override
             public void onSuccess(Void result) {
                 Toast.makeText(context,
-                        "Enabled",
+                        "Activity Recognition Enabled",
                         Toast.LENGTH_SHORT)
                         .show();
             }

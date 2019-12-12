@@ -122,6 +122,7 @@ public class CarInfoActivity extends AppCompatActivity{
 
                 geoFencing.startGeo(getGeofencePendingIntent());
                 startActivity(new Intent(CarInfoActivity.this, FindCarActivity.class));
+                finish();
             }
         });
 
